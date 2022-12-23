@@ -1,0 +1,202 @@
+
+{
+  "swagger": "2.0",
+  "info": {
+      "description": "RentalX Documentation",
+      "version": "1.0.0",
+      "title": "Tasks API",
+      "contact": {
+          "email": "mateussk83@gmail.com"
+      },
+      "license": {
+          "name": "Apache 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+  },
+  "schemes": ["http"],
+  "host": "localhost:3333",
+  "basePath": "/",
+  "paths" : {
+      "/users" : {
+          "get" : {
+              "summary" : "List all the users",
+              "description": "List all the users",
+              "produces": ["application/json"],
+              "parameters": [
+                {
+                    "name": "user_id",
+                    "in": "headers",
+                    "description": "user id which is admin",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+              "responses": {
+                  "200": {
+                      "description": "Ok",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/User"
+                          }
+                      }
+                  },
+                  "400": {
+                      "description": "Invalid status value",
+                      "schema": {
+                          "$ref": "#/definitions/InvalidResponse"
+                      }
+                  }
+              }
+          },
+          "post" : {
+            "summary" : "Create new User",
+            "description": "Create new User",
+            "produces": ["application/json"],
+            "consumes": ["application/json"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "user",
+                    "description": "user object",
+                    "required": true,
+                    "schema": {
+                            "$ref":"#/definitions/UserResponse"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid status value",
+                    "schema": {
+                        "$ref": "#/definitions/InvalidResponse"
+                    }
+                }
+            }
+        }
+      },
+      "/users/{user_id}/admin" : {
+          "patch" : {
+              "summary" : "Turn User Admin",
+              "description": "Turn User Admin",
+              "produces": ["application/json"],
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "description": "id of users who need to become admin",
+                      "required": true,
+                      "type": "string"
+                  }
+                  
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Ok",
+                      "schema": {
+                            "$ref": "#/definitions/User"
+                          }
+                  },
+                  "400": {
+                      "description": "Invalid status value",
+                      "schema": {
+                          "$ref": "#/definitions/InvalidResponse"
+                      }
+                  }
+              }
+          }
+      },
+      "/users/{user_id}" : {
+        "get" : {
+            "summary" : "Show User Profiller",
+            "description": "Show User Profiller",
+            "produces": ["application/json"],
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "id of the user you want to show",
+                    "required": true,
+                    "type": "string"
+                }
+                
+            ],
+            "responses": {
+                "200": {
+                    "description": "Ok",
+                    "type":"object",
+                    "schema": {
+                          "name": "string",
+                          "email": "string"
+                        }
+                },
+                "400": {
+                    "description": "Invalid status value",
+                    "schema": {
+                        "$ref": "#/definitions/InvalidResponse"
+                    }
+                }
+            }
+        }
+    }
+  }, 
+  "definitions": {
+    "UserResponse": {
+        "type": "object",
+          "properties": {
+              "name": {
+                  "type": "string"
+              },
+              "email": {
+                  "type": "string"
+              }
+          }
+
+    },
+      "User": {
+          "type": "object",
+          "properties": {
+              "user_id": {
+                   "type": "string"
+              },
+              "name": {
+                  "type": "string"
+              },
+              "admin": {
+                  "type": "boolean"
+              },
+              "email": {
+                  "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+            },
+            "updated_at": {
+                "type": "string"
+            }
+
+          }
+      },
+      "InvalidResponse": {
+          "type": "object",
+          "properties": {
+              "statusCode": {
+                  "type": "string"
+              },
+              "message": {
+                  "type": "string"
+              }
+          }
+
+      }
+  }
+}
